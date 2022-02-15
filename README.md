@@ -10,6 +10,6 @@ Select "Consultant_Salary_Project.sql" for SQL code
 
 Skills involved in this EDA:
 
-Collecting data from survey
-Data cleaning & transformation in MySQL
-Data manipulation and filtering for analysis
+- Collecting data from survey
+- Data cleaning & transformation in MySQL
+- Data manipulation and filtering for analysis
