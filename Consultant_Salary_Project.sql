@@ -4,7 +4,7 @@ Skills used: Common Table Expressions (CTE), Temporary Tables, Window Functions,
 */
 
 
-/*   Compensation Data   */
+/*  	 Compensation Data 	  */
 
 # Average compensation for each position
 	# SKILLS: Aggregate Function	
@@ -68,7 +68,7 @@ FROM avg_compensation
 ORDER BY firm_name, job_title, total_compensation;
 
 
-/*   Weekly hours worked data.  */
+/*   	  Weekly hours worked data 	  */
 
 # Weekly hours worked by all employees
 	# SKILLS: Subquery, Aggregate Function, Aggregate Window Function
@@ -110,7 +110,7 @@ SELECT firm_name,
 FROM employee_count;
 
 
-/*   Employee Data   */
+/*   	Employee Data 	  */
 
 # Number of employees from each company
 	# SKILLS: CTE, Aggregate Function
@@ -135,7 +135,7 @@ FROM consulting_dataset
 GROUP BY job_title;
 
 
-/*   Additional Queries   */
+/*  	 Additional Queries 	  */
         
 # Group by practice type
 SELECT commercial_or_federal_practice,
