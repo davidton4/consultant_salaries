@@ -1,13 +1,13 @@
 /*
 Consultant Salaries Data Exploration 
-Skills used: CTE's, Temporary Tables, Window Functions, Aggregate Functions, Subqueries, Converting Data Types
+Skills used: Common Table Expressions (CTE), Temporary Tables, Window Functions, Partitions, Aggregate Functions, Subqueries, Converting Data Types
 */
 
 
 /*   Compensation Data   */
 
 # Average compensation for each position
-	# SKILLS: Aggregate Function
+	# SKILLS: Aggregate Function	
 SELECT job_title, ROUND(AVG(total_compensation), 2) AS avg_compensation
 FROM consulting_dataset
 WHERE job_title != 'Unknown'
@@ -29,9 +29,9 @@ WHERE firm_name NOT IN ('Not Applicable', 'No longer employed here')
 GROUP BY job_title, firm_name
 ORDER BY job_title, avg_compensation desc;
 
-# Rank the current employees in each position at every company by total compensation,
-# and compare to the average compensation for that position at every company
-	#SKILLS: Ranking Window Function, Aggregate Window Function
+# Rank the current employees in each position at every company by total compensation
+# Compare edach compensation to the average compensation for that position at every company
+	#SKILLS: Ranking Window Function, Aggregate Window Function, Partitions
 SELECT RANK() OVER(PARTITION BY firm_name, job_title ORDER BY total_compensation desc) AS compensation_ranking,
 		current_position,
 		firm_name,
@@ -44,7 +44,7 @@ FROM consulting_dataset
 WHERE current_position = 'YES' AND firm_name NOT IN ('Not Applicable', 'No longer employed here');
 
 # Output if employee's total compensation is >, < or = to the average for that job across all companies
-	# SKILLS: Common Table Expression (CTE), CASE Statement, Aggregate Window Function, CONCAT
+	# SKILLS: CTE, CASE Statement, Aggregate Window Function, CONCAT, Partitions
 WITH avg_compensation AS (
 	SELECT firm_name,
 			job_title,
@@ -78,7 +78,7 @@ FROM (SELECT weekly_hours_worked, COUNT(*) AS num_employees
 		ORDER BY weekly_hours_worked) AS subquery;
 
 # Weekly hours worked by position type
-	# SKILLS: CTE, Aggregate Window Function, Aggregate Function
+	# SKILLS: CTE, Aggregate Window Function, Aggregate Function, Partitions	
 WITH hours_worked_byJob AS (		
 	SELECT job_title, weekly_hours_worked, COUNT(*) AS num_employees
 	FROM consulting_dataset
@@ -89,7 +89,7 @@ SELECT *, ROUND((num_employees/(SUM(num_employees) OVER (PARTITION BY job_title)
 FROM hours_worked_byJob;
 
 # Find weekly hours worked at each company as a count of employees and the percentage of total employees at company
-	# SKILLS: Temporary Table, Aggregate Function, Aggregate Window Function    
+	# SKILLS: Temporary Table, Aggregate Function, Aggregate Window Function, Partitions    
 DROP TEMPORARY TABLE IF EXISTS employee_count;
 CREATE TEMPORARY TABLE employee_count AS
 SELECT firm_name, weekly_hours_worked, COUNT(*) AS num_employees
@@ -122,6 +122,7 @@ FROM total, employees_per_company
 ORDER BY percent_of_total_employees desc;
 
 # Number of employees by job title
+	# SKILLS: Aggregate Function
 SELECT job_title, COUNT(*) AS num_employees_per_company
 FROM consulting_dataset
 GROUP BY job_title;
